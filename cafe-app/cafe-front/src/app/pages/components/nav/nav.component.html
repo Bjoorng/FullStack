@@ -1,0 +1,16 @@
+<mat-toolbar class="toolbar">
+  <div class="leftSide">
+    <button mat-icon-button class="logoBtn" routerLink="/">
+    </button>
+    <span class="example-spacer"></span>
+  </div>
+  <div class="rightSide">
+    <button mat-raised-button routerLink="/auth/signup">signup</button>
+    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Profile</button>
+      <button mat-menu-item>Orders</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

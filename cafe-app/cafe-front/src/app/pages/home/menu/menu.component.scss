@@ -1,0 +1,29 @@
+#menuContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(
+    180deg,
+    rgba(55, 0, 0, 1) 25%,
+    rgba(64, 40, 1, 1) 77%,
+    rgba(93, 64, 1, 1) 100%
+  );
+  .menuTop {
+    font-size: 48px;
+    margin-top: 30px;
+    color: wheat;
+  }
+  .menuHeaders {
+    margin: 80px 0px 20px 0px;
+    font-size: 32px;
+    color: wheat;
+  }
+  .card {
+    width: 300px;
+    background-color: wheat;
+    mat-card-subtitle {
+      color: #333;
+    }
+  }
+}

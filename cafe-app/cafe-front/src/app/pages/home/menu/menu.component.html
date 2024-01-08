@@ -1,0 +1,52 @@
+<div id="menuContainer">
+  <div class="menuTop">In Store Menu</div>
+  <div class="menuHeaders coffees">Coffee</div>
+  @for (item of menuItems; track item.category){ @if (item.category ==
+  "coffee"){
+  <mat-card class="card coffeeCard">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle>{{ item.price }}</mat-card-subtitle>
+        <img mat-card-sm-image src="{{ item.image }}" />
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{ item.description }}
+    </mat-card-content>
+  </mat-card>
+  } }
+  <div class="menuHeaders tea">Tea</div>
+  @for (item of menuItems; track item.category){ @if (item.category == "tea"){
+  <mat-card class="card teaCard">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle>{{ item.price }}</mat-card-subtitle>
+        <img mat-card-sm-image src="{{ item.image }}" />
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{ item.description }}
+    </mat-card-content>
+  </mat-card>
+  } }
+  <div class="menuHeaders paistries">Paistries</div>
+  @for (item of menuItems; track item.category){ @if (item.category ==
+  "paistry"){
+  <mat-card class="card paistryCard">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle style="color: black;" class="price">{{ item.price }}</mat-card-subtitle>
+        <img mat-card-sm-image src="{{ item.image }}" />
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{ item.description }}
+    </mat-card-content>
+    @if(item.glutenFree){<mat-card-content> gluten free </mat-card-content>}
+    @if(item.vegan){ <mat-card-content> vegan </mat-card-content>}
+  </mat-card>
+  } }
+</div>

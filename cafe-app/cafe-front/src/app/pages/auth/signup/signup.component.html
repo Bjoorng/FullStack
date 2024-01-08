@@ -1,0 +1,76 @@
+<div class="signupContainer">
+  <div class="signupHead">Signup Here!</div>
+  <div class="signupForm">
+    <form class="d-flex flex-column justify-content-center align-items-center">
+      <div class="fieldContainer names">
+        <mat-form-field class="formField" appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input matInput name="firstName" [(ngModel)]="data.firstName" />
+        </mat-form-field>
+        <mat-form-field class="formField" appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input matInput name="lastName" [(ngModel)]="data.lastName" />
+        </mat-form-field>
+      </div>
+      <div class="fieldContainer email">
+        <mat-form-field class="formField" appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput name="username" [(ngModel)]="data.username" />
+        </mat-form-field>
+        <mat-form-field class="formField" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="data.email" />
+        </mat-form-field>
+      </div>
+      <div class="fieldContainer phonePass">
+        <mat-form-field class="formField" appearance="fill">
+          <mat-label>Phone</mat-label>
+          <input matInput type="tel" name="phone" [(ngModel)]="data.phone" />
+        </mat-form-field>
+        <mat-form-field class="formField" appearance="fill">
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            name="password"
+            [(ngModel)]="data.password"
+            class="w-100"
+            placeholder="Password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="buttons">
+        <button
+          mat-raised-button
+          color="primary"
+          class="signupBtn"
+          (click)="signup()"
+        >
+          Signup
+        </button>
+
+        <button mat-raised-button class="loginBtn" [routerLink]="['../login']">
+          Already have an account? Login Here!
+        </button>
+      </div>
+    </form>
+    <div class="links">
+      <button
+        mat-button
+        label="Home"
+        styleClass="p-button-secondary p-button-text"
+        [routerLink]="['/']"
+      >
+        Home
+      </button>
+    </div>
+  </div>
+</div>
