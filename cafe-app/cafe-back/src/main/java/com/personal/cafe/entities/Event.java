@@ -1,3 +1,4 @@
+
 package com.personal.cafe.entities;
 
 import java.time.LocalDate;

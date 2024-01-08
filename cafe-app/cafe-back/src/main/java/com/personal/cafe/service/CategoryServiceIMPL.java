@@ -54,10 +54,5 @@ public class CategoryServiceIMPL implements CategoryService{
 			throw new MyApiException(HttpStatus.BAD_REQUEST, "Category Not Found!");			
 		}
 	}
-
-	@Override
-	public Category findByName(String name) {
-		return categoryRepo.findByName(name);
-	}
 	
 }
