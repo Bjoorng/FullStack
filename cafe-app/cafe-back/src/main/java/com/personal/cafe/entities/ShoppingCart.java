@@ -1,14 +1,16 @@
 package com.personal.cafe.entities;
 
-import java.sql.Date;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,22 +20,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "reservations")
-public class Reservation {
+@Table(name = "shopping_carts")
+public class ShoppingCart {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cart_id")
 	private Long id;
-	
 	@Column
-	private Date reservationDate;
+	private Integer items;
+	@Column
+	private Double totalPrice;
 	
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "event_id")
-	private Event event;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
 	private User user;
 	
+	@OneToMany
+	private Set<CartItem> cartItem;
 }

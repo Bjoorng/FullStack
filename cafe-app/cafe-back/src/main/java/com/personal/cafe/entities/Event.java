@@ -1,7 +1,7 @@
 
 package com.personal.cafe.entities;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +32,6 @@ public class Event {
 	@Column
 	private Boolean isPrivate;
 	@Column
-	private LocalDate evDate;
+	private Date date;
 	
 }

@@ -1,6 +1,7 @@
 package com.personal.cafe.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,10 +44,17 @@ public class User {
 	private String phone;
 	@Column
 	private String password;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-
     @JsonIgnore
     private Set<Roles> roles = new HashSet<>();
 
+	@JsonIgnore
+	@OneToMany
+	private List<ShoppingCart> cart;
+	
+	@OneToMany
+	private List<Order> orders; 
+	
 }

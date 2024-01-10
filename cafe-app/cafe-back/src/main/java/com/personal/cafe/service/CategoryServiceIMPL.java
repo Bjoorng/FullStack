@@ -24,7 +24,7 @@ public class CategoryServiceIMPL implements CategoryService{
 	@Override
 	public Category save(Category category) {
 		 Category newCategory = new Category();
-		 newCategory.setCatName(category.getCatName());
+		 newCategory.setName(category.getName());
 	     return categoryRepo.save(newCategory);
 	}
 
@@ -38,7 +38,7 @@ public class CategoryServiceIMPL implements CategoryService{
 		Category moddedCategory = null;
         try {
         	moddedCategory= categoryRepo.findById(category.getId()).get();
-        	moddedCategory.setCatName(category.getCatName());
+        	moddedCategory.setName(category.getName());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -53,6 +53,10 @@ public class CategoryServiceIMPL implements CategoryService{
 		else {
 			throw new MyApiException(HttpStatus.BAD_REQUEST, "Category Not Found!");			
 		}
+	}
+
+	public Category findByName(String catName) {
+		return categoryRepo.findByName(catName);
 	}
 	
 }
