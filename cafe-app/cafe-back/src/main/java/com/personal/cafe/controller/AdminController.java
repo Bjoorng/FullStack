@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personal.cafe.dto.ProductDto;
 import com.personal.cafe.entities.Category;
+import com.personal.cafe.entities.Event;
 import com.personal.cafe.entities.Product;
 import com.personal.cafe.entities.User;
 import com.personal.cafe.service.CategoryServiceIMPL;
+import com.personal.cafe.service.EventsServiceIMPL;
 import com.personal.cafe.service.ProductsServiceIMPL;
 import com.personal.cafe.service.UserService;
 
@@ -37,6 +39,9 @@ public class AdminController {
 
 	@Autowired
 	CategoryServiceIMPL categoryService;
+	
+	@Autowired
+	EventsServiceIMPL eventsService;
 
 	@GetMapping("/users")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -80,7 +85,7 @@ public class AdminController {
 	public ResponseEntity<?> getProductById(@PathVariable Long productId) {
 		Product product = productService.getById(productId);
 		if (product == null) {
-			return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Product Not Found!", HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
@@ -100,6 +105,8 @@ public class AdminController {
 		prod.setFullPrice(product.getFullPrice());
 		prod.setDiscount(product.getDiscount());
 		prod.setQuantity(product.getQuantity());
+		prod.setSmallDescription(product.getSmallDescription());
+		prod.setDescription(product.getDescription());
 		prod.setPicture(product.getPicture());
 		prod.setCategory(category);
 
@@ -110,23 +117,25 @@ public class AdminController {
 
 	@PutMapping("products/{productId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody Product productRequest) {
+	public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody Product update) {
 		Product p = productService.getById(productId);
 		if (p == null) {
-			return new ResponseEntity<>("Product Not Fount", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Product Not Found!", HttpStatus.NOT_FOUND);
 		}
-		Category category = categoryService.findByName(productRequest.getCategory().getName());
+		Category category = categoryService.findByName(update.getCategory().getName());
 		if (category == null) {
 			category = new Category();
-			category.setName(productRequest.getCategory().getName());
+			category.setName(update.getCategory().getName());
 			categoryService.save(category);
 		}
-		p.setProductName(productRequest.getProductName());
-		p.setDescription(productRequest.getDescription());
-		p.setFullPrice(productRequest.getFullPrice());
-		p.setDiscount(productRequest.getDiscount());
-		p.setQuantity(productRequest.getQuantity());
-		p.setPicture(productRequest.getPicture());
+		p.setProductName(update.getProductName());
+		p.setDescription(update.getDescription());
+		p.setFullPrice(update.getFullPrice());
+		p.setDiscount(update.getDiscount());
+		p.setSmallDescription(update.getSmallDescription());
+		p.setDescription(update.getDescription());
+		p.setQuantity(update.getQuantity());
+		p.setPicture(update.getPicture());
 		p.setCategory(category);
 
 		Product updatedProduct = productService.save(p);
@@ -142,5 +151,62 @@ public class AdminController {
 		return new ResponseEntity<>(p, HttpStatus.OK);
 	}
 	
+	@GetMapping("/events")
+	public ResponseEntity<List<Event>> getAllEvents() {
+		List<Event> evList = eventsService.findAll();
+		ResponseEntity<List<Event>> res = new ResponseEntity<List<Event>>(evList, HttpStatus.OK);
+		return res;
+	}
+	
+	@GetMapping("/events/{eventId}")
+	public ResponseEntity<?> getEventById(@PathVariable Long eventId) {
+		Event ev = eventsService.getById(eventId);
+		if (ev == null) {
+			return new ResponseEntity<>("Event Not Found!", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ev, HttpStatus.OK);
+	}	
+	
+	@PostMapping("/events/add")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> addEvent(@RequestBody Event event) {
+		Event ev = new Event();
+		ev.setEvName(event.getEvName());
+		ev.setGuestName(event.getGuestName());
+		ev.setSeats(event.getSeats());
+		ev.setDate(event.getDate());
+		ev.setIsPrivate(event.getIsPrivate());
+
+		Event newEvent = eventsService.save(ev);
+
+		return new ResponseEntity<>(newEvent, HttpStatus.CREATED);
+	}
+	
+	@PutMapping("events/{eventId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> updateEvent(@PathVariable Long eventId, @RequestBody Event update) {
+		Event e = eventsService.getById(eventId);
+		if (e == null) {
+			return new ResponseEntity<>("Event Not Found!", HttpStatus.NOT_FOUND);
+		}
+	
+		e.setEvName(update.getEvName());
+		e.setGuestName(update.getGuestName());
+		e.setSeats(update.getSeats());
+		e.setDate(update.getDate());
+		e.setIsPrivate(update.getIsPrivate());
+
+		Event updatedEvent = eventsService.save(e);
+
+		return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/events/{eventId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> deleteEvent(@PathVariable Long eventId){
+		Event e = eventsService.getById(eventId);
+		eventsService.deleteById(eventId);
+		return new ResponseEntity<>(e, HttpStatus.OK);
+	}
 	
 }

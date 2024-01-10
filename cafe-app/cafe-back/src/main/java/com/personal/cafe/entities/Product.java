@@ -32,6 +32,8 @@ public class Product {
 	@Column
 	private Integer quantity;
 	@Column
+	private String smallDescription;
+	@Column
 	private String description;
 	@Column
 	private String picture;

@@ -24,11 +24,11 @@ public class ProductsServiceIMPL implements ProductsService {
 	@Override
 	public Product save(Product product) {
 		Product p = new Product();
-		p.setId(product.getId());
 		p.setProductName(product.getProductName());
 		p.setFullPrice(product.getFullPrice());
 		p.setDiscount(product.getDiscount());
 		p.setQuantity(product.getQuantity());
+		p.setSmallDescription(product.getSmallDescription());
 		p.setDescription(product.getDescription());
 		p.setPicture(product.getPicture());
 		p.setVisible(true);
@@ -45,8 +45,8 @@ public class ProductsServiceIMPL implements ProductsService {
 
 	@Override
 	public Product getById(Long id) {
-		Optional<Product> optionalProduct = productRepository.findById(id);
-		return optionalProduct.orElse(null);
+		Optional<Product> product = productRepository.findById(id);
+		return product.orElse(null);
 	}
 
 }
