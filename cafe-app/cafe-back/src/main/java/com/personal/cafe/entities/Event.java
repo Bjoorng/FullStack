@@ -28,6 +28,8 @@ public class Event {
 	@Column
 	private String guestName;
 	@Column
+	private Double ticketPrice;
+	@Column
 	private Integer seats;
 	@Column
 	private Boolean isPrivate;

@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.personal.cafe.dto.ProductDto;
 import com.personal.cafe.entities.Category;
 import com.personal.cafe.entities.Event;
+import com.personal.cafe.entities.Order;
 import com.personal.cafe.entities.Product;
+import com.personal.cafe.entities.Reservation;
 import com.personal.cafe.entities.User;
 import com.personal.cafe.service.CategoryServiceIMPL;
 import com.personal.cafe.service.EventsServiceIMPL;
+import com.personal.cafe.service.OrdersServiceIMPL;
 import com.personal.cafe.service.ProductsServiceIMPL;
+import com.personal.cafe.service.ReservationsServiceIMPL;
 import com.personal.cafe.service.UserService;
 
 @RestController
@@ -42,6 +46,12 @@ public class AdminController {
 	
 	@Autowired
 	EventsServiceIMPL eventsService;
+	
+	@Autowired
+	OrdersServiceIMPL ordersService;
+	
+	@Autowired
+	ReservationsServiceIMPL reservationsService;
 
 	@GetMapping("/users")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -60,7 +70,7 @@ public class AdminController {
 
 	@PostMapping("/categories/add")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> addCategory(@RequestBody Category category) {
+	public ResponseEntity<Category> addCategory(@RequestBody Category category) {
 		Category cat = categoryService.save(category);
 		ResponseEntity<Category> res = new ResponseEntity<Category>(cat, HttpStatus.OK);
 		return res;
@@ -209,4 +219,24 @@ public class AdminController {
 		return new ResponseEntity<>(e, HttpStatus.OK);
 	}
 	
+	@GetMapping("/orders")
+	public ResponseEntity<List<Order>> getAllOrders(){
+		List<Order> orderList = ordersService.findAllOrders();
+		ResponseEntity<List<Order>> res = new ResponseEntity<List<Order>>(orderList, HttpStatus.OK);
+		return res;
+	}
+	
+	@GetMapping("/reservations")
+	public ResponseEntity<List<Reservation>> getAllReservations() {
+		List<Reservation> reservationsList = reservationsService.findAll();
+		ResponseEntity<List<Reservation>> res = new ResponseEntity<List<Reservation>>(reservationsList, HttpStatus.OK);
+		return res;
+	}
+	
+	@DeleteMapping("/reservations/{reservationId}")
+	public ResponseEntity<?> deleteReservation(@PathVariable Long reservationId){
+		Reservation r = reservationsService.getById(reservationId);
+		reservationsService.deleteById(reservationId);
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
 }

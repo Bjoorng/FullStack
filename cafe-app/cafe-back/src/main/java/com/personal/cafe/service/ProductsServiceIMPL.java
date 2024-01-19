@@ -48,5 +48,13 @@ public class ProductsServiceIMPL implements ProductsService {
 		Optional<Product> product = productRepository.findById(id);
 		return product.orElse(null);
 	}
+	
+	public List<Product> filterPriceLow(){
+		return productRepository.filterPriceLow();
+	}
+	
+	public List<Product> filterPriceHigh(){
+		return productRepository.filterPriceHigh();
+	}
 
 }

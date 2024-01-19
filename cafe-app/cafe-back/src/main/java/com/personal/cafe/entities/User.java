@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,14 +46,19 @@ public class User {
 	@Column
 	private String password;
 	
+	private Boolean isAuthenticated = true;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @JsonIgnore
     private Set<Roles> roles = new HashSet<>();
 
-	@JsonIgnore
 	@OneToMany
-	private List<ShoppingCart> cart;
+	private List<Reservation> reservations;
+	
+	@JsonIgnore
+	@OneToOne
+	private ShoppingCart cart;
 	
 	@OneToMany
 	private List<Order> orders; 

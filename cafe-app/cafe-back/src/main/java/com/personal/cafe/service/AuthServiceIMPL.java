@@ -1,6 +1,8 @@
 package com.personal.cafe.service;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,20 @@ public class AuthServiceIMPL implements AuthService {
 	}
 
 	@Override
-	public String signup(SignupDto registerDto) {
+	public User signup(SignupDto registerDto) {
+		Optional<User> adminUserOptional = userRepository.findByUsername("admin");
+        if (adminUserOptional.isEmpty()) {
+            User adminUser = new User();
+            adminUser.setFirstName("Admin");
+            adminUser.setLastName("Admin");
+            adminUser.setUsername("admin");
+            adminUser.setEmail("admin@example.com");
+            adminUser.setIsAuthenticated(true);
+            adminUser.setPassword(passwordEncoder.encode("admin"));
+            Roles adminRole = roleRepository.findByRoleName(ERole.ADMIN).get();
+            adminUser.setRoles(Collections.singleton(adminRole));
+            userRepository.save(adminUser);
+        }
 		if (userRepository.existsByUsername(registerDto.getUsername())) {
 			throw new MyApiException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
 		}
@@ -91,7 +106,7 @@ public class AuthServiceIMPL implements AuthService {
 		System.out.println(user);
 		userRepository.save(user);
 
-		return "Registration Successful";
+		return user;
 	}
 
 	public ERole getRole(String role) {

@@ -8,7 +8,7 @@ public interface AuthService {
 
 	String login(LoginDto loginDto);
 
-	String signup(SignupDto registerDto);
+	User signup(SignupDto registerDto);
 
 	void saveUserVerificationToken(User theUser, String verificationToken);
 

@@ -15,9 +15,9 @@ public interface ProductsRepository extends JpaRepository<Product, Long>{
     List<Product> getProductsInCategory(Long catId);
     
     @Query("select p from Product p order by p.fullPrice desc")
-    List<Product> filterHighPrice();
+    List<Product> filterPriceHigh();
 
     @Query("select p from Product p order by p.fullPrice ")
-    List<Product> filterLowPrice();
+    List<Product> filterPriceLow();
 	
 }

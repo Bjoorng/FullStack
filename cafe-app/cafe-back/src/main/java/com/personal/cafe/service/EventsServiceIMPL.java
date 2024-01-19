@@ -25,6 +25,7 @@ public class EventsServiceIMPL implements EventsService{
 		Event e = new Event();
 		e.setEvName(event.getEvName());
 		e.setGuestName(event.getGuestName());
+		e.setTicketPrice(event.getTicketPrice());
 		e.setSeats(event.getSeats());
 		e.setIsPrivate(event.getIsPrivate());
 		e.setDate(event.getDate());
