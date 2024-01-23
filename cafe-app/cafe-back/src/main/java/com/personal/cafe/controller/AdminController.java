@@ -54,7 +54,7 @@ public class AdminController {
 	ReservationsServiceIMPL reservationsService;
 
 	@GetMapping("/users")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> userList = userService.getAllUsers();
 		ResponseEntity<List<User>> res = new ResponseEntity<List<User>>(userList, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/categories/add")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Category> addCategory(@RequestBody Category category) {
 		Category cat = categoryService.save(category);
 		ResponseEntity<Category> res = new ResponseEntity<Category>(cat, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class AdminController {
 	}
 
 	@PutMapping("/categories/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Category> modCategory(@PathVariable Long id, @RequestBody Category category) {
 		category = categoryService.findById(id);
 		categoryService.mod(category);
@@ -100,8 +100,8 @@ public class AdminController {
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
-	@PostMapping("/products/add")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/products-add")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> addProduct(@RequestBody Product product) {
 		Category category = categoryService.findByName(product.getCategory().getName());
 		if (category == null) {
@@ -111,7 +111,6 @@ public class AdminController {
 		}
 		Product prod = new Product();
 		prod.setProductName(product.getProductName());
-		prod.setDescription(product.getDescription());
 		prod.setFullPrice(product.getFullPrice());
 		prod.setDiscount(product.getDiscount());
 		prod.setQuantity(product.getQuantity());
@@ -120,13 +119,13 @@ public class AdminController {
 		prod.setPicture(product.getPicture());
 		prod.setCategory(category);
 
-		Product newProduct = productService.save(product);
+		Product newProduct = productService.save(prod);
 
 		return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
 	}
 
-	@PutMapping("products/{productId}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("products/update/{productId}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody Product update) {
 		Product p = productService.getById(productId);
 		if (p == null) {
@@ -153,8 +152,8 @@ public class AdminController {
 		return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/products/{productId}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/products/delete/{productId}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> deleteProduct(@PathVariable Long productId){
 		Product p = productService.getById(productId);
 		productService.deleteById(productId);
@@ -178,7 +177,7 @@ public class AdminController {
 	}	
 	
 	@PostMapping("/events/add")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> addEvent(@RequestBody Event event) {
 		Event ev = new Event();
 		ev.setEvName(event.getEvName());
@@ -192,8 +191,8 @@ public class AdminController {
 		return new ResponseEntity<>(newEvent, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("events/{eventId}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("events/update/{eventId}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> updateEvent(@PathVariable Long eventId, @RequestBody Event update) {
 		Event e = eventsService.getById(eventId);
 		if (e == null) {
@@ -211,8 +210,8 @@ public class AdminController {
 		return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/events/{eventId}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/events/delete/{eventId}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> deleteEvent(@PathVariable Long eventId){
 		Event e = eventsService.getById(eventId);
 		eventsService.deleteById(eventId);
@@ -233,7 +232,7 @@ public class AdminController {
 		return res;
 	}
 	
-	@DeleteMapping("/reservations/{reservationId}")
+	@DeleteMapping("/reservations/delete/{reservationId}")
 	public ResponseEntity<?> deleteReservation(@PathVariable Long reservationId){
 		Reservation r = reservationsService.getById(reservationId);
 		reservationsService.deleteById(reservationId);

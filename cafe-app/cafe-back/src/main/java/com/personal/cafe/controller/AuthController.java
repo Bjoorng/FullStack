@@ -40,12 +40,12 @@ public class AuthController {
 		this.authService = authService;
 	}
 
-	@PostMapping(value = { "/login" })
+	@PostMapping(value = { "/login", "/signin" })
 	public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
 
 		String token = authService.login(loginDto);
+		
 	    UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsername());
-
 		
 		Set<String> userRoles = userDetails.getAuthorities()
 	            .stream()
@@ -56,11 +56,12 @@ public class AuthController {
 		jwtAuthResponse.setUsername(loginDto.getUsername());
 		jwtAuthResponse.setAccessToken(token);
 		jwtAuthResponse.setRoles(userRoles);
+		System.out.println(jwtAuthResponse);
 		
 		return ResponseEntity.ok(jwtAuthResponse);
 	}
 
-	@PostMapping(value = { "/signup" })
+	@PostMapping(value = { "/register", "/signup" })
 	public ResponseEntity<User> signup(@RequestBody SignupDto signupDto) {
 		User response = authService.signup(signupDto);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);

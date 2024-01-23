@@ -55,8 +55,8 @@ public class CategoryServiceIMPL implements CategoryService{
 		}
 	}
 
-	public Category findByName(String catName) {
-		return categoryRepo.findByName(catName);
+	public Category findByName(String name) {
+		return categoryRepo.findByName(name);
 	}
 	
 }

@@ -18,6 +18,7 @@ import com.personal.cafe.repositories.RoleRepository;
 import com.personal.cafe.repositories.UserRepository;
 import com.personal.cafe.service.AuthService;
 
+@Component
 public class AuthRunner implements ApplicationRunner{
 	
 	@Autowired RoleRepository roleRepository;
